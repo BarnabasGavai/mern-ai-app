@@ -119,49 +119,55 @@ Frontend is built and served by the backend for unified deployment.
 
 ```
 mern-ai-app/
-
-backend/
-├── config/
-│   └── db.js
-│
-├── controllers/
-│   └── aiController.js
-│
-├── models/
-│   └── Prompt.js
-│
-├── routes/
-│   └── aiRoutes.js
-│
-├── middleware/
-│
-├── .env.example
+├── README.md
 ├── .gitignore
-├── package.json
-├── package-lock.json
-└── server.js
+├── backend/
+│   ├── .env.example
+│   ├── .gitignore
+│   ├── package.json
+│   ├── package-lock.json
+│   └── src/
+│       ├── app.js
+│       ├── server.js
+│       ├── config/
+│       │   ├── aiConfig.js
+│       │   └── db.js
+│       ├── controllers/
+│       │   └── aiController.js
+│       ├── middlewares/
+│       │   └── errorMiddleware.js
+│       ├── models/
+│       │   └── Prompt.js
+│       ├── routes/
+│       │   └── aiRoutes.js
+│       ├── services/
+│       │   └── aiService.js
+│       └── utils/
+│           ├── apiError.js
+│           └── asyncHandler.js
+└── frontend/
+    ├── .gitignore
+    ├── README.md
+    ├── index.html
+    ├── package.json
+    ├── package-lock.json
+    ├── vite.config.js
+    ├── eslint.config.js
+    └── src/
+        ├── main.jsx
+        ├── App.jsx
+        ├── index.css
+        ├── components/
+        │   ├── FlowCanvas.jsx
+        │   ├── HistoryPannel.jsx
+        │   ├── InputNode.jsx
+        │   ├── ResultNode.jsx
+        │   └── Toolbar.jsx
+        ├── pages/
+        │   └── Dashboard.jsx
+        └── services/
+            └── api.js
 
-
-frontend/
-├── src/
-│   ├── components/
-│   ├── nodes/
-│   ├── services/
-│   │   └── api.js
-│   ├── App.jsx
-│   ├── main.jsx
-│   └── index.css
-│
-├── public/
-├── .gitignore
-├── package.json
-├── package-lock.json
-├── vite.config.js
-└── index.html
-
-
-README.md
-.gitignore
 ```
 
 ---
