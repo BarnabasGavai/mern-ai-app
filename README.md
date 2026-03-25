@@ -1,29 +1,37 @@
-# MERN AI Application
+# MERN AI Flow Application
 
-A full-stack MERN application that allows users to send prompts to an AI model, visualize the request flow, and store prompt history in a database.
+A full-stack MERN application that allows users to send prompts to an AI model, visualize the interaction using a flow interface, and store prompt history in MongoDB.
 
-This project demonstrates integration of **React Flow visualization**, **AI API integration**, **MongoDB persistence**, and **production deployment**.
+This project demonstrates full-stack integration of **React**, **Express**, **MongoDB**, **AI APIs**, and **production deployment practices**.
 
 ---
 
-# Live Demo
+# Live Application
 
-**Deployed Application:**
+**Deployed App:**
 https://mern-ai-app-qteu.onrender.com
+
+---
+
+# GitHub Repository
+
+Public repository containing full source code:
+
+https://github.com/BarnabasGavai/mern-ai-app
 
 ---
 
 # Project Overview
 
-This application allows a user to:
+This application allows users to:
 
-• Enter a prompt inside a visual flow node
-• Send the prompt to an AI model
-• View the generated response
-• Save prompt history
-• View previously saved prompts
+• Enter a prompt inside a visual input node
+• Execute the flow to generate an AI response
+• View the response inside a result node
+• Save prompts and responses
+• View saved history from MongoDB
 
-The application demonstrates proper separation between frontend, backend, database, and AI services.
+The system follows proper MERN architecture where the frontend communicates only with the backend, and the backend securely interacts with the AI provider.
 
 ---
 
@@ -32,7 +40,7 @@ The application demonstrates proper separation between frontend, backend, databa
 ## Frontend
 
 • React
-• React Flow (flow visualization)
+• React Flow
 • Axios
 • Vite
 
@@ -46,7 +54,8 @@ The application demonstrates proper separation between frontend, backend, databa
 ## AI Integration
 
 • OpenRouter API
-• NVIDIA free AI model (via OpenRouter)
+• NVIDIA free AI model
+(Model used: **nvidia/nemotron-3-nano-30b-a3b:free**)
 
 ## Deployment
 
@@ -57,19 +66,24 @@ The application demonstrates proper separation between frontend, backend, databa
 
 # Application Architecture
 
-Frontend communicates only with the backend API.
+System flow:
 
-Flow:
+React Frontend
+↓
+Express Backend API
+↓
+OpenRouter AI Service
+↓
+MongoDB Database
+↓
+Response returned to frontend
 
-React UI
-↓
-Express API
-↓
-OpenRouter AI Model
-↓
-MongoDB Storage
-↓
-Response returned to UI
+Key architectural decisions:
+
+• Frontend never calls AI directly
+• Backend protects API keys
+• MongoDB stores prompt history
+• Express serves React build in production
 
 ---
 
@@ -77,27 +91,27 @@ Response returned to UI
 
 ## AI Prompt Execution
 
-Users can enter a prompt and execute the flow to receive an AI response.
+Users can enter prompts and generate AI responses through the backend.
 
 ## Flow Visualization
 
-Implemented using React Flow to visually represent the interaction between input and output nodes.
+Implemented using React Flow to visually represent the request and response relationship.
 
-## Secure API Handling
+## Secure Backend Integration
 
-AI API keys are stored securely in backend environment variables.
+All AI communication is handled securely through backend APIs.
 
-## Database Storage
+## MongoDB Storage
 
-Users can save prompt and response history in MongoDB.
+Users can save prompt history and retrieve previous interactions.
 
 ## History Panel
 
-Users can retrieve previously saved prompts.
+Allows users to review previously saved prompts.
 
-## Production Deployment
+## Production Ready Deployment
 
-Application is deployed with frontend served from backend build.
+Frontend is built and served by the backend for unified deployment.
 
 ---
 
@@ -107,23 +121,47 @@ Application is deployed with frontend served from backend build.
 mern-ai-app/
 
 backend/
-├── controllers
-├── routes
-├── models
-├── middleware
-├── config
-├── server.js
-└── package.json
+├── config/
+│   └── db.js
+│
+├── controllers/
+│   └── aiController.js
+│
+├── models/
+│   └── Prompt.js
+│
+├── routes/
+│   └── aiRoutes.js
+│
+├── middleware/
+│
+├── .env.example
+├── .gitignore
+├── package.json
+├── package-lock.json
+└── server.js
+
 
 frontend/
-├── src
-├── components
-├── services
-├── nodes
-├── App.jsx
-└── package.json
+├── src/
+│   ├── components/
+│   ├── nodes/
+│   ├── services/
+│   │   └── api.js
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+│
+├── public/
+├── .gitignore
+├── package.json
+├── package-lock.json
+├── vite.config.js
+└── index.html
+
 
 README.md
+.gitignore
 ```
 
 ---
@@ -135,7 +173,7 @@ README.md
 Clone repository:
 
 ```
-git clone <repo-url>
+git clone https://github.com/BarnabasGavai/mern-ai-app
 ```
 
 Go to backend:
@@ -156,8 +194,8 @@ Add:
 ```
 PORT=5000
 MONGO_URI=your_mongodb_connection
-OPENROUTER_API_KEY=your_key
-AI_MODEL=nvidia/free-model-id
+OPENROUTER_API_KEY=your_openrouter_key
+AI_MODEL=nvidia/nemotron-3-nano-30b-a3b:free
 ```
 
 Run backend:
@@ -178,7 +216,7 @@ npm install
 npm run dev
 ```
 
-App runs at:
+Frontend runs at:
 
 ```
 http://localhost:5173
@@ -197,36 +235,15 @@ OPENROUTER_API_KEY
 AI_MODEL
 ```
 
-Never commit `.env`.
+Security note:
 
-Use `.env.example` instead.
-
----
-
-# AI Model Used
-
-This project uses a **free NVIDIA AI model available through OpenRouter**.
-
-Provider:
-OpenRouter
-
-Model:
-NVIDIA free model (via OpenRouter platform)
-
-Reason:
-• Free tier access
-• Fast inference
-• Easy integration
-• Suitable for demo projects
-
-Documentation:
-https://openrouter.ai/docs
+Environment files are excluded from Git using `.gitignore`.
 
 ---
 
 # API Endpoints
 
-## Ask AI
+## Run AI Prompt
 
 POST:
 
@@ -238,15 +255,7 @@ Body:
 
 ```
 {
-  "prompt":"your text"
-}
-```
-
-Returns:
-
-```
-{
-  "response":"AI output"
+  "prompt":"Your text"
 }
 ```
 
@@ -265,7 +274,7 @@ Body:
 ```
 {
   "prompt":"text",
-  "response":"ai response"
+  "response":"AI output"
 }
 ```
 
@@ -279,56 +288,58 @@ GET:
 /api/ai/history
 ```
 
-Returns saved prompts.
+Returns saved prompt history.
 
 ---
 
 # Deployment Strategy
 
-Frontend is built and served by Express backend.
+Deployment follows a unified backend serving approach:
 
-Build process:
+Frontend is built into a production bundle and served by Express static middleware.
 
-Frontend build → dist folder → served by Express static middleware.
+Process:
 
-This ensures:
+Frontend build → dist folder → Express serves static files
+
+Advantages:
 
 • Single origin deployment
-• No CORS issues
-• Production ready structure
+• No CORS problems
+• Simpler hosting
+• Production friendly architecture
 
 ---
 
 # Demo Video
 
+[Youtube Video](https://youtu.be/1KaEVKqg0Q4)
 https://youtu.be/1KaEVKqg0Q4
 
-The demo shows: [Click here to watch the video](https://youtu.be/1KaEVKqg0Q4)
-
+Demo shows:
 
 • Prompt execution
-• Database save
-• MongoDB record verification
+• Flow interaction
+• MongoDB save operation
+• History retrieval
 
 ---
 
 # Security Practices
 
-• API keys stored in environment variables
-• Backend handles AI requests (not frontend)
-• No secrets committed to repository
-• Proper separation of concerns
+• AI keys stored in backend environment variables
+• No secrets exposed in frontend
+• Backend mediates all AI communication
+• Sensitive files excluded from Git
 
 ---
 
-# Improvements Possible
+# Possible Future Improvements
 
-• Authentication
-• User accounts
+• User authentication
+• Multiple flow nodes
 • Streaming AI responses
-• Better node customization
-• Pagination of history
-
+• Pagination for history
 
 ---
 
@@ -338,6 +349,14 @@ Barnabas Gavai
 
 ---
 
-# Notes
+# Submission Context
 
-This project was created as part of a MERN developer technical evaluation task demonstrating full-stack integration skills.
+This project was developed as part of a MERN stack developer technical assessment to demonstrate:
+
+• Full stack integration
+• API design
+• Database usage
+• AI service integration
+• Deployment understanding
+
+---
